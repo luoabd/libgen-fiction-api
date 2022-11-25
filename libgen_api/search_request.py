@@ -14,20 +14,13 @@ from bs4 import BeautifulSoup
 class SearchRequest:
 
     col_names = [
-        "ID",
         "Author",
+        "Series",
         "Title",
-        "Publisher",
-        "Year",
-        "Pages",
         "Language",
-        "Size",
-        "Extension",
+        "File",
         "Mirror_1",
         "Mirror_2",
-        "Mirror_3",
-        "Mirror_4",
-        "Mirror_5",
         "Edit",
     ]
 
@@ -47,11 +40,11 @@ class SearchRequest:
         query_parsed = "%20".join(self.query.split(" "))
         if self.search_type.lower() == "title":
             search_url = (
-                f"http://gen.lib.rus.ec/search.php?req={query_parsed}&column=title"
+                f"https://libgen.rs/fiction/?q={query_parsed}&criteria=title"
             )
         elif self.search_type.lower() == "author":
             search_url = (
-                f"http://gen.lib.rus.ec/search.php?req={query_parsed}&column=author"
+                f"https://libgen.rs/fiction/?q={query_parsed}&criteria=author"
             )
         search_page = requests.get(search_url)
         return search_page
@@ -61,9 +54,11 @@ class SearchRequest:
         soup = BeautifulSoup(search_page.text, "lxml")
         self.strip_i_tag_from_soup(soup)
 
-        # Libgen results contain 3 tables
-        # Table2: Table of data to scrape.
-        information_table = soup.find_all("table")[2]
+        # Remove the ISBN identifiers from the page
+        for p in soup.find_all('p', class_="catalog_identifier"):
+            p.decompose()
+        # Libgen (fiction) results contain 1 table
+        information_table = soup.find_all("table")[0]
 
         # Determines whether the link url (for the mirror)
         # or link text (for the title) should be preserved.
@@ -74,7 +69,7 @@ class SearchRequest:
                 td.a["href"]
                 if td.find("a")
                 and td.find("a").has_attr("title")
-                and td.find("a")["title"] != ""
+                and td.find("a")["title"] != "search by author"
                 else "".join(td.stripped_strings)
                 for td in row.find_all("td")
             ]

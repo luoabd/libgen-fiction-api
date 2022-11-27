@@ -1,3 +1,5 @@
+libgen-fiction-api is a [libgen-api](https://github.com/harrison-broadbent/libgen-api) fork. This fork focuses on the fiction section of Library Genesis.
+
 <div align="center">
 
 ![logo](logo.png)
@@ -137,22 +139,15 @@ You can filter against any of the Library Genesis column names, which are given 
 
 ```python
 col_names = [
-        "ID",
-        "Author",
-        "Title",
-        "Publisher",
-        "Year",
-        "Pages",
-        "Language",
-        "Size",
-        "Extension",
-        "Mirror_1",
-        "Mirror_2",
-        "Mirror_3",
-        "Mirror_4",
-        "Mirror_5",
-        "Edit",
-    ]
+    "Author",
+    "Series",
+    "Title",
+    "Language",
+    "File",
+    "Mirror_1",
+    "Mirror_2",
+    "Edit",
+]
 ```
 
 ## Resolving mirror links
@@ -202,19 +197,12 @@ Results are returned as a list of dictionaries:
   {
     "Author": "John Smith",
     "Edit": "http://example.com",
-    "Extension": "epub",
-    "ID": "00000",
+    "File": "epub",
     "Language": "German",
     "Mirror_1": "http://example.com",
     "Mirror_2": "http://example.com",
-    "Mirror_3": "http://example.com",
-    "Mirror_4": "http://example.com",
-    "Mirror_5": "http://example.com",
-    "Pages": "410",
-    "Publisher": "Publisher",
-    "Size": "1005 Kb",
     "Title": "Title",
-    "Year": "2021"
+    "Series": "Amazing Series"
   }
 ]
 ```
@@ -235,7 +223,7 @@ To run the tests -
 
 - ## Clone this repo -
   ```
-  git clone https://github.com/harrison-broadbent/libgen-api.git && cd libgen-api
+  git clone https://github.com/luoabd/libgen-fiction-api.git && cd libgen-fiction-api
   ```
 - ## Install dependencies with -
   ```

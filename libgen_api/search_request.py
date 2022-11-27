@@ -44,7 +44,7 @@ class SearchRequest:
             )
         elif self.search_type.lower() == "author":
             search_url = (
-                f"https://libgen.rs/fiction/?q={query_parsed}&criteria=author"
+                f"https://libgen.rs/fiction/?q={query_parsed}&criteria=authors"
             )
         search_page = requests.get(search_url)
         return search_page
